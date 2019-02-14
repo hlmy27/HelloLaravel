@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transfer;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -14,6 +15,8 @@ class TransferController extends Controller
     public function index()
     {
         //return view('users');
+        $transfer = Transfer::orderBy('id','dari','untuk','amount');
+        return view('transfer.index',compact('transfer'));
     }
 
     /**
@@ -24,6 +27,7 @@ class TransferController extends Controller
     public function create()
     {
         //
+        return view('transfer.create');
     }
 
     /**
@@ -46,6 +50,8 @@ class TransferController extends Controller
     public function show($id)
     {
         //
+        $transfer = Transfer::findOrFail($id);
+        return view('transfer.show',compact('transfer'));
     }
 
     /**
@@ -57,6 +63,8 @@ class TransferController extends Controller
     public function edit($id)
     {
         //
+        $transfer = Transfer::findOrFail($id);
+        return view('transfer.edit',compact('transfer'));
     }
 
     /**
@@ -69,6 +77,7 @@ class TransferController extends Controller
     public function update(Request $request, $id)
     {
         //
+
     }
 
     /**
