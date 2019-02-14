@@ -15,8 +15,8 @@ class TransferController extends Controller
     public function index()
     {
         //return view('users');
-        $transfer = Transfer::orderBy('id','dari','untuk','amount');
-        return view('transfer.index',compact('transfer'));
+        $transfers = Transfer::orderBy('id','dari','untuk','amount');
+        return view('transfer.index',compact('transfers'));
     }
 
     /**
@@ -77,6 +77,15 @@ class TransferController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->validate($request, [
+            'dari' => 'required',
+            'untuk' => 'required',
+            'amount' => 'required'
+        ]);
+
+        $transfer = Transfer::findOrFail($id)->update($request->all());
+
+        return redirect()->route('transfer.index')->with('message', 'Transfer berhasil diubah!');
 
     }
 
@@ -89,5 +98,7 @@ class TransferController extends Controller
     public function destroy($id)
     {
         //
+        $transfer = Transfer::findOrFail($id)->delete();
+        return redirect()->route('transfer.index')->with('message', 'Transfer berhasil dihapus!');
     }
 }
